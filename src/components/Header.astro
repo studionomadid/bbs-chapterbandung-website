@@ -1,0 +1,64 @@
+---
+const isRulesPage = Astro.url.pathname.startsWith('/rules');
+---
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="BBS Bandung — Beranda">
+    <span class="brand-mark">BBS</span>
+    <span class="brand-copy">
+      <strong>BAPAK BAPAK SENGGANG</strong>
+      <small>CHAPTER BANDUNG</small>
+    </span>
+  </a>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-label="Buka navigasi"
+    aria-expanded="false"
+    aria-controls="main-navigation"
+  >
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="main-navigation" id="main-navigation" aria-label="Navigasi utama">
+    <a href="/#about">ABOUT</a>
+    <a href="/#chapter">THE CHAPTER</a>
+    <a href="/#activities">ACTIVITIES</a>
+    <a href="/#gallery">GALLERY</a>
+    <a
+      class:list={['nav-rules', { 'is-active': isRulesPage }]}
+      href="/rules/"
+      aria-current={isRulesPage ? 'page' : undefined}
+    >RULES</a>
+    <a class="nav-cta" href="/#contact">
+      GET IN TOUCH <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navigation = document.querySelector<HTMLElement>('#main-navigation');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    toggle.setAttribute(
+      'aria-label',
+      isOpen ? 'Buka navigasi' : 'Tutup navigasi'
+    );
+
+    navigation?.classList.toggle('is-open', !isOpen);
+  });
+
+  navigation?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      toggle?.setAttribute('aria-label', 'Buka navigasi');
+      navigation?.classList.remove('is-open');
+    });
+  });
+</script>

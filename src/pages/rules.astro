@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const rules = Array.from({ length: 9 }, (_, index) => {
+  const number = String(index + 1).padStart(2, '0');
+
+  return {
+    number,
+    src: `/images/rules/rule-${number}.jpg`,
+    title: `PETUNJUK TEKNIS ${number}`,
+  };
+});
+---
+
+<BaseLayout
+  title="Rules & Petunjuk Teknis — BBS Chapter Bandung"
+  description="Halaman dokumentasi petunjuk teknis Bapak Bapak Senggang Chapter Bandung."
+>
+  <section class="rules-hero" aria-labelledby="rules-title">
+    <div class="rules-hero-shade"></div>
+
+    <div class="page-container rules-hero-content">
+      <a class="rules-back-link" href="/">
+        <span aria-hidden="true">←</span> KEMBALI KE BERANDA
+      </a>
+
+      <p class="eyebrow rules-eyebrow">
+        BBS CHAPTER BANDUNG / DOCUMENTATION
+      </p>
+
+      <h1 id="rules-title">
+        RULES<span>&</span><br />
+        GUIDELINES<span class="rules-period">.</span>
+      </h1>
+
+      <div class="rules-hero-bottom">
+        <p>
+          Petunjuk teknis dan panduan komunitas dalam satu tempat.
+          Pilih dokumentasi untuk melihatnya dalam ukuran lebih besar.
+        </p>
+
+        <div class="rules-counter" aria-label="Sembilan slot dokumentasi">
+          <strong>09</strong>
+          <span>DOCUMENTS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rules-section" aria-labelledby="rules-gallery-title">
+    <div class="page-container">
+      <div class="rules-section-heading">
+        <div>
+          <p class="eyebrow">REFERENCE / TECHNICAL DOCUMENTS</p>
+          <h2 id="rules-gallery-title">PETUNJUK<br /><span>TEKNIS.</span></h2>
+        </div>
+
+        <p class="rules-heading-note">
+          Sembilan slot dokumentasi.<br />
+          Foto dapat ditambahkan secara mandiri.
+        </p>
+      </div>
+
+      <div class="rules-grid">
+        {rules.map((rule) => (
+          <article class="rules-card">
+            <button
+              class="rules-image-button"
+              type="button"
+              aria-label={`Perbesar ${rule.title}`}
+              data-rule-image={rule.src}
+              data-rule-title={rule.title}
+              disabled
+            >
+              <img
+                class="rules-image"
+                src={rule.src}
+                alt={rule.title}
+                loading="lazy"
+                decoding="async"
+              />
+
+              <span class="rules-placeholder" aria-hidden="true">
+                <span class="rules-placeholder-number">{rule.number}</span>
+                <span class="rules-placeholder-icon">+</span>
+                <span class="rules-placeholder-label">PHOTO SLOT</span>
+                <span class="rules-placeholder-hint">ADD IMAGE</span>
+              </span>
+
+              <span class="rules-zoom" aria-hidden="true">↗</span>
+            </button>
+
+            <div class="rules-card-caption">
+              <span class="rules-card-number">{rule.number}</span>
+              <div>
+                <h3>{rule.title}</h3>
+                <p>Dokumentasi BBS Chapter Bandung</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="rules-note">
+        <span class="rules-note-mark" aria-hidden="true">i</span>
+        <p>
+          <strong>CATATAN:</strong>
+          Slot yang belum memiliki foto akan menampilkan placeholder.
+          Tambahkan foto ke folder <code>public/images/rules/</code>
+          dengan nama file <code>rule-01.jpg</code> sampai
+          <code>rule-09.jpg</code>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="rules-lightbox" aria-label="Pratinjau foto petunjuk teknis">
+    <div class="rules-lightbox-toolbar">
+      <span class="rules-lightbox-title">BBS / TECHNICAL DOCUMENTS</span>
+      <button class="rules-lightbox-close" type="button" aria-label="Tutup foto">
+        CLOSE <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <img class="rules-lightbox-image" src="" alt="" />
+
+    <p class="rules-lightbox-caption"></p>
+  </dialog>
+
+  <script>
+    const ruleCards = document.querySelectorAll<HTMLButtonElement>(
+      '.rules-image-button'
+    );
+
+    const lightbox = document.querySelector<HTMLDialogElement>(
+      '.rules-lightbox'
+    );
+
+    const lightboxImage = document.querySelector<HTMLImageElement>(
+      '.rules-lightbox-image'
+    );
+
+    const lightboxCaption = document.querySelector<HTMLElement>(
+      '.rules-lightbox-caption'
+    );
+
+    const closeButton = document.querySelector<HTMLButtonElement>(
+      '.rules-lightbox-close'
+    );
+
+    ruleCards.forEach((button) => {
+      const image = button.querySelector<HTMLImageElement>('.rules-image');
+      const placeholder = button.querySelector<HTMLElement>(
+        '.rules-placeholder'
+      );
+
+      if (!image || !placeholder) return;
+
+      const showImage = () => {
+        button.classList.add('has-image');
+        button.disabled = false;
+      };
+
+      const showPlaceholder = () => {
+        button.classList.remove('has-image');
+        button.disabled = true;
+      };
+
+      image.addEventListener('load', showImage);
+      image.addEventListener('error', showPlaceholder);
+
+      if (image.complete) {
+        if (image.naturalWidth > 0) {
+          showImage();
+        } else {
+          showPlaceholder();
+        }
+      }
+
+      button.addEventListener('click', () => {
+        if (!lightbox || !lightboxImage || !lightboxCaption) return;
+
+        lightboxImage.src = image.currentSrc || image.src;
+        lightboxImage.alt = image.alt;
+        lightboxCaption.textContent =
+          button.dataset.ruleTitle || 'Petunjuk teknis';
+
+        lightbox.showModal();
+      });
+    });
+
+    const closeLightbox = () => {
+      if (lightbox?.open) lightbox.close();
+    };
+
+    closeButton?.addEventListener('click', closeLightbox);
+
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    lightbox?.addEventListener('close', () => {
+      if (lightboxImage) {
+        lightboxImage.src = '';
+        lightboxImage.alt = '';
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox?.open) {
+        closeLightbox();
+      }
+    });
+  </script>
+</BaseLayout>
