@@ -2415,3 +2415,776 @@ h1 span {
     transition: none;
   }
 }
+
+/* ACTIVITIES PAGE: STANDALONE AGENDA */
+.activities-page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 390px;
+  display: flex;
+  align-items: stretch;
+  background: #111110;
+  color: #f3f0e9;
+}
+
+.activities-page-hero-shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 78% 30%, rgb(132 3 3 / 22%), transparent 48%),
+    linear-gradient(110deg, #111110 0%, #171614 58%, #211817 100%);
+}
+
+.activities-page-hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  padding-top: 110px;
+  padding-bottom: 46px;
+}
+
+.activities-back-link {
+  align-self: flex-start;
+  margin-bottom: 48px;
+  color: #c9c3b8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.activities-back-link:hover {
+  color: #fff;
+}
+
+.activities-back-link span {
+  margin-right: 8px;
+}
+
+.activities-page-eyebrow {
+  margin: 0 0 15px;
+  color: #b4aaa0;
+  font-size: 0.7rem;
+  letter-spacing: 0.17em;
+}
+
+.activities-page-hero h1 {
+  margin: 0;
+  color: #f3f0e9;
+  font-size: clamp(3.1rem, 9vw, 7.3rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.075em;
+}
+
+.activities-title-period {
+  color: #840303;
+}
+
+.activities-page-hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-top: 42px;
+  padding-top: 22px;
+  border-top: 1px solid rgb(243 240 233 / 18%);
+}
+
+.activities-page-hero-bottom > p {
+  margin: 0;
+  color: #c9c3b8;
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.activities-page-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.activities-page-counter strong {
+  color: #f3f0e9;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.activities-page-counter span {
+  color: #aaa197;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+}
+
+.activities-page-section {
+  padding: 82px 0 100px;
+  background: #f1eee7;
+  color: #191816;
+}
+
+.activities-page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 28px;
+  margin-bottom: 38px;
+}
+
+.activities-page-heading .eyebrow {
+  margin: 0 0 14px;
+  color: #777066;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+}
+
+.activities-page-heading h2 {
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 4.4rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+}
+
+.activities-page-heading h2 span {
+  color: #840303;
+}
+
+.activities-page-heading-note {
+  margin: 0 0 5px;
+  color: #716b62;
+  font-size: 0.84rem;
+  line-height: 1.8;
+  text-align: right;
+}
+
+.activities-page-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.activities-event-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgb(25 24 22 / 12%);
+  background: #e8e4dc;
+}
+
+.activities-event-image-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #211f1b;
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.activities-event-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 640px;
+  object-fit: contain;
+  transition: transform 300ms ease;
+}
+
+.activities-event-image-button:hover .activities-event-image {
+  transform: scale(1.015);
+}
+
+.activities-event-zoom {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  background: #840303;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.activities-event-caption {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 14px;
+  padding: 22px 22px 24px;
+  border-top: 1px solid rgb(25 24 22 / 10%);
+}
+
+.activities-event-number {
+  color: #840303;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.activities-event-category {
+  margin: 0 0 8px;
+  color: #777066;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.activities-event-caption h3 {
+  margin: 0;
+  color: #191816;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.activities-event-description {
+  margin: 10px 0 0;
+  color: #716b62;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.activities-event-placeholder {
+  display: flex;
+  min-height: 320px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  background:
+    linear-gradient(135deg, rgb(132 3 3 / 5%), transparent 55%),
+    #e2ded5;
+  color: #777066;
+}
+
+.activities-placeholder-number {
+  align-self: flex-start;
+  margin: 0 0 auto 20px;
+  padding-top: 20px;
+  color: #840303;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.activities-placeholder-icon {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border: 1px solid rgb(25 24 22 / 25%);
+  color: #840303;
+  font-size: 1.8rem;
+  font-weight: 300;
+}
+
+.activities-placeholder-label {
+  color: #191816;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.activities-placeholder-hint {
+  font-size: 0.63rem;
+  letter-spacing: 0.15em;
+}
+
+.activities-event-lightbox {
+  width: min(94vw, 1200px);
+  max-width: none;
+  max-height: 94vh;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid rgb(255 255 255 / 15%);
+  background: #111110;
+  color: #f3f0e9;
+}
+
+.activities-event-lightbox::backdrop {
+  background: rgb(0 0 0 / 88%);
+  backdrop-filter: blur(5px);
+}
+
+.activities-event-lightbox-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+.activities-event-lightbox-title {
+  color: #c9c3b8;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.activities-event-lightbox-close {
+  padding: 8px 0 8px 12px;
+  border: 0;
+  background: transparent;
+  color: #f3f0e9;
+  font: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.activities-event-lightbox-close span {
+  margin-left: 7px;
+  color: #e55;
+  font-size: 1.2rem;
+}
+
+.activities-event-lightbox-image {
+  display: block;
+  width: 100%;
+  max-height: 76vh;
+  object-fit: contain;
+}
+
+.activities-event-lightbox-caption {
+  margin: 0;
+  padding: 14px 20px 18px;
+  color: #c9c3b8;
+  font-size: 0.8rem;
+}
+
+.activities-event-image-button:focus-visible,
+.activities-back-link:focus-visible,
+.activities-event-lightbox-close:focus-visible {
+  outline: 2px solid #840303;
+  outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .activities-page-hero {
+    min-height: 350px;
+  }
+
+  .activities-page-hero-content {
+    padding-top: 100px;
+    padding-bottom: 32px;
+  }
+
+  .activities-back-link {
+    margin-bottom: 40px;
+  }
+
+  .activities-page-hero-bottom {
+    margin-top: 32px;
+  }
+
+  .activities-page-section {
+    padding: 58px 0 72px;
+  }
+
+  .activities-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+
+  .activities-page-heading-note {
+    text-align: left;
+  }
+
+  .activities-page-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .activities-event-placeholder {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 420px) {
+  .activities-page-hero h1 {
+    font-size: clamp(2.7rem, 13vw, 3.5rem);
+  }
+
+  .activities-page-hero-bottom > p {
+    font-size: 0.8rem;
+  }
+
+  .activities-page-counter strong {
+    font-size: 1.6rem;
+  }
+
+  .activities-event-caption {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    padding: 18px 16px 20px;
+  }
+
+  .activities-event-lightbox-toolbar {
+    padding: 13px 14px;
+  }
+
+  .activities-event-lightbox-title {
+    font-size: 0.58rem;
+  }
+}
+
+/* HERO SLIDESHOW: AUTOMATIC BACKGROUND CROSSFADE */
+
+.hero .hero-slide {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  will-change: opacity;
+}
+
+.hero .hero-slide.is-active {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .hero-slide {
+    transition: none;
+  }
+}
+
+/* HOME AGENDA: COMMUNITY ACTIVITIES PREVIEW */
+
+.home-agenda-section {
+  overflow: hidden;
+  background: #1b1a18;
+}
+
+.home-agenda-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  margin-bottom: 55px;
+}
+
+.home-agenda-heading .eyebrow {
+  margin: 22px 0 14px;
+}
+
+.home-agenda-heading h2 {
+  margin: 0;
+  font-size: clamp(55px, 8vw, 112px);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+}
+
+.home-agenda-heading h2 span {
+  color: var(--color-red);
+}
+
+.home-agenda-intro {
+  width: min(100%, 320px);
+  padding-bottom: 6px;
+}
+
+.home-agenda-intro > p {
+  margin: 0 0 24px;
+  color: var(--color-muted);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.home-agenda-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-red);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  transition: color 180ms ease;
+}
+
+.home-agenda-all-link:hover {
+  color: #d84a4a;
+}
+
+.home-agenda-all-link span {
+  color: var(--color-red);
+  font-size: 16px;
+}
+
+.home-agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.home-agenda-card {
+  min-width: 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.home-agenda-poster-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: #111;
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.home-agenda-poster {
+  display: block;
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 400ms ease, opacity 300ms ease;
+}
+
+.home-agenda-poster-button:hover .home-agenda-poster {
+  transform: scale(1.025);
+  opacity: 0.88;
+}
+
+.home-agenda-poster-zoom {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.45);
+  color: #fff;
+  font-size: 20px;
+}
+
+.home-agenda-card-caption {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 12px;
+  padding: 24px 0 4px;
+}
+
+.home-agenda-card-number {
+  padding-top: 3px;
+  color: var(--color-red);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.home-agenda-card-caption .eyebrow {
+  margin: 0 0 10px;
+  color: var(--color-muted);
+  font-size: 9px;
+}
+
+.home-agenda-card-caption h3 {
+  margin: 0 0 10px;
+  font-size: clamp(20px, 2.4vw, 30px);
+  letter-spacing: -0.025em;
+}
+
+.home-agenda-card-caption > div > p:last-child {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.home-agenda-next-slot {
+  position: relative;
+  display: flex;
+  min-height: 440px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(132, 3, 3, 0.16), transparent 55%),
+    #151412;
+  color: var(--color-text);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.home-agenda-next-slot:hover {
+  border-color: var(--color-red);
+}
+
+.home-agenda-next-number {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: var(--color-muted);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.home-agenda-next-plus {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  color: var(--color-red);
+  font-size: 38px;
+  font-weight: 300;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.home-agenda-next-slot:hover .home-agenda-next-plus {
+  background: var(--color-red);
+  color: #fff;
+}
+
+.home-agenda-next-label {
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.home-agenda-next-hint {
+  margin-top: 12px;
+  color: var(--color-muted);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.home-agenda-lightbox {
+  width: min(92vw, 1000px);
+  max-width: none;
+  max-height: 90vh;
+  padding: 18px;
+  overflow: auto;
+  border: 1px solid #3b3935;
+  background: #151412;
+  color: #f3f0e9;
+}
+
+.home-agenda-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(5px);
+}
+
+.home-agenda-lightbox-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.home-agenda-lightbox-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 8px 8px;
+  border: 0;
+  background: transparent;
+  color: #f3f0e9;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.home-agenda-lightbox-close span {
+  color: var(--color-red);
+  font-size: 22px;
+}
+
+.home-agenda-lightbox-image {
+  display: block;
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+}
+
+.home-agenda-lightbox-caption {
+  margin: 14px 0 0;
+  color: var(--color-muted);
+  font-size: 11px;
+}
+
+.home-agenda-poster-button:focus-visible,
+.home-agenda-all-link:focus-visible,
+.home-agenda-next-slot:focus-visible,
+.home-agenda-lightbox-close:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .home-agenda-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 38px;
+  }
+
+  .home-agenda-heading h2 {
+    font-size: clamp(54px, 12vw, 86px);
+  }
+
+  .home-agenda-intro {
+    width: 100%;
+  }
+
+  .home-agenda-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .home-agenda-poster,
+  .home-agenda-next-slot {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+  }
+
+  .home-agenda-poster {
+    object-fit: contain;
+    background: #111;
+  }
+
+  .home-agenda-next-slot {
+    aspect-ratio: 4 / 3;
+  }
+
+  .home-agenda-card-caption {
+    padding-top: 20px;
+  }
+
+  .home-agenda-lightbox {
+    width: 96vw;
+    padding: 12px;
+  }
+
+  .home-agenda-lightbox-toolbar {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-agenda-poster,
+  .home-agenda-next-plus,
+  .home-agenda-all-link {
+    transition: none;
+  }
+}

@@ -1,12 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import heroImagePaths from '../data/hero-images.json';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const heroImages = heroImagePaths.map((image) => `${base}${image}`);
 ---
 
 <BaseLayout>
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-image" role="img" aria-label="Foto dokumentasi komunitas BBS Bandung"></div>
+    {heroImages.map((image, index) => (
+      <div
+        class:list={[
+          'hero-image',
+          'hero-slide',
+          { 'is-active': index === 0 },
+        ]}
+        style={`background-image: url("${image}")`}
+        aria-hidden="true"
+      ></div>
+    ))}
     <div class="hero-shade"></div>
 
     <div class="hero-content page-container">
@@ -39,6 +51,67 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <span>THE JOURNEY</span>
     </div>
   </section>
+
+  <script>
+    const heroSection = document.querySelector<HTMLElement>('.hero');
+    const heroSlides = Array.from(
+      document.querySelectorAll<HTMLElement>('.hero-slide')
+    );
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
+    let heroTimer: number | undefined;
+    let currentHeroIndex = 0;
+
+    const showHeroSlide = (index: number) => {
+      heroSlides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('is-active', slideIndex === index);
+      });
+
+      currentHeroIndex = index;
+    };
+
+    const stopHeroSlideshow = () => {
+      if (heroTimer !== undefined) {
+        window.clearInterval(heroTimer);
+        heroTimer = undefined;
+      }
+    };
+
+    const startHeroSlideshow = () => {
+      stopHeroSlideshow();
+
+      if (
+        heroSlides.length < 2 ||
+        document.hidden ||
+        reducedMotion.matches
+      ) {
+        return;
+      }
+
+      heroTimer = window.setInterval(() => {
+        const nextIndex = (currentHeroIndex + 1) % heroSlides.length;
+        showHeroSlide(nextIndex);
+      }, 5000);
+    };
+
+    if (heroSection && heroSlides.length > 0) {
+      showHeroSlide(0);
+      startHeroSlideshow();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stopHeroSlideshow();
+        } else {
+          startHeroSlideshow();
+        }
+      });
+
+      reducedMotion.addEventListener('change', startHeroSlideshow);
+    }
+  </script>
 
   <section class="intro-section section-pad" id="about">
     <div class="page-container intro-grid">
@@ -156,6 +229,151 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
     </div>
   </section>
+
+  <section class="home-agenda-section section-pad" id="community-agenda">
+    <div class="page-container">
+      <div class="home-agenda-heading">
+        <div>
+          <span class="section-number">04 / COMMUNITY CALENDAR</span>
+          <p class="eyebrow">SAVE THE DATE</p>
+          <h2>COMMUNITY<br /><span>ACTIVITIES.</span></h2>
+        </div>
+
+        <div class="home-agenda-intro">
+          <p>
+            Dari agenda berikutnya hingga cerita di sepanjang jalan.
+            Temukan kegiatan BBS Chapter Bandung.
+          </p>
+          <a class="home-agenda-all-link" href={`${base}/activities/`}>
+            VIEW ALL ACTIVITIES <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="home-agenda-grid">
+        <article class="home-agenda-card">
+          <button
+            class="home-agenda-poster-button"
+            type="button"
+            data-home-agenda-image={`${base}/images/activities/activities-2026-10-23.jpeg`}
+            data-home-agenda-title="Agenda 23 Oktober 2026"
+            aria-label="Perbesar poster agenda 23 Oktober 2026"
+          >
+            <img
+              class="home-agenda-poster"
+              src={`${base}/images/activities/activities-2026-10-23.jpeg`}
+              alt="Poster agenda kegiatan BBS Chapter Bandung, 23 Oktober 2026"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="home-agenda-poster-zoom" aria-hidden="true">↗</span>
+          </button>
+
+          <div class="home-agenda-card-caption">
+            <span class="home-agenda-card-number">01</span>
+            <div>
+              <p class="eyebrow">COMMUNITY AGENDA</p>
+              <h3>23 OCTOBER 2026</h3>
+              <p>Agenda kegiatan BBS Chapter Bandung.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="home-agenda-card home-agenda-next-card">
+          <a class="home-agenda-next-slot" href={`${base}/activities/`}>
+            <span class="home-agenda-next-number">02</span>
+            <span class="home-agenda-next-plus" aria-hidden="true">+</span>
+            <span class="home-agenda-next-label">NEXT ACTIVITY</span>
+            <span class="home-agenda-next-hint">DETAILS COMING SOON</span>
+          </a>
+
+          <div class="home-agenda-card-caption">
+            <span class="home-agenda-card-number">02</span>
+            <div>
+              <p class="eyebrow">COMING NEXT</p>
+              <h3>NEXT ACTIVITY</h3>
+              <p>Agenda berikutnya akan diumumkan di halaman Activities.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <dialog class="home-agenda-lightbox" aria-label="Pratinjau poster agenda">
+      <div class="home-agenda-lightbox-toolbar">
+        <span>BBS / COMMUNITY ACTIVITIES</span>
+        <button
+          class="home-agenda-lightbox-close"
+          type="button"
+          aria-label="Tutup poster"
+        >
+          CLOSE <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <img class="home-agenda-lightbox-image" src="" alt="" />
+      <p class="home-agenda-lightbox-caption"></p>
+    </dialog>
+  </section>
+
+  <script>
+    const homeAgendaButtons = document.querySelectorAll<HTMLButtonElement>(
+      '.home-agenda-poster-button'
+    );
+    const homeAgendaDialog = document.querySelector<HTMLDialogElement>(
+      '.home-agenda-lightbox'
+    );
+    const homeAgendaDialogImage = document.querySelector<HTMLImageElement>(
+      '.home-agenda-lightbox-image'
+    );
+    const homeAgendaDialogCaption = document.querySelector<HTMLElement>(
+      '.home-agenda-lightbox-caption'
+    );
+    const homeAgendaClose = document.querySelector<HTMLButtonElement>(
+      '.home-agenda-lightbox-close'
+    );
+
+    homeAgendaButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const imagePath = button.dataset.homeAgendaImage;
+
+        if (
+          !imagePath ||
+          !homeAgendaDialog ||
+          !homeAgendaDialogImage ||
+          !homeAgendaDialogCaption
+        ) {
+          return;
+        }
+
+        homeAgendaDialogImage.src = imagePath;
+        homeAgendaDialogImage.alt =
+          button.querySelector('img')?.alt || 'Poster agenda BBS';
+        homeAgendaDialogCaption.textContent =
+          button.dataset.homeAgendaTitle || 'Community agenda';
+
+        homeAgendaDialog.showModal();
+      });
+    });
+
+    const closeHomeAgendaDialog = () => {
+      if (homeAgendaDialog?.open) homeAgendaDialog.close();
+    };
+
+    homeAgendaClose?.addEventListener('click', closeHomeAgendaDialog);
+
+    homeAgendaDialog?.addEventListener('click', (event) => {
+      if (event.target === homeAgendaDialog) {
+        closeHomeAgendaDialog();
+      }
+    });
+
+    homeAgendaDialog?.addEventListener('close', () => {
+      if (homeAgendaDialogImage) {
+        homeAgendaDialogImage.src = '';
+        homeAgendaDialogImage.alt = '';
+      }
+    });
+  </script>
 
   <section class="gallery-section" id="gallery">
     <div class="gallery-heading page-container">

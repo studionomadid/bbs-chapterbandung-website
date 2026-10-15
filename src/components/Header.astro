@@ -3,6 +3,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const isRulesPage = Astro.url.pathname.startsWith('/rules');
 const isHistoryPage = Astro.url.pathname.startsWith('/history');
 const isBubsPage = Astro.url.pathname.startsWith('/bubs');
+const isActivitiesPage = Astro.url.pathname.startsWith('/activities');
 ---
 
 <header class="site-header">
@@ -35,7 +36,11 @@ const isBubsPage = Astro.url.pathname.startsWith('/bubs');
   <nav class="main-navigation" id="main-navigation" aria-label="Navigasi utama">
     <a href={`${base}/#about`}>ABOUT</a>
     <a href={`${base}/#chapter`}>THE CHAPTER</a>
-    <a href={`${base}/#activities`}>ACTIVITIES</a>
+    <a
+      class:list={['nav-activities', { 'is-active': isActivitiesPage }]}
+      href={`${base}/activities/`}
+      aria-current={isActivitiesPage ? 'page' : undefined}
+    >ACTIVITIES</a>
     <a href={`${base}/#gallery`}>GALLERY</a>
     <a
       class:list={['nav-bubs', { 'is-active': isBubsPage }]}

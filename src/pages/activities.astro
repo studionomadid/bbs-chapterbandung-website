@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const activityImage = `${base}/images/activities/activities-2026-10-23.jpeg`;
+---
+
+<BaseLayout
+  title="Activities & Agenda — BBS Chapter Bandung"
+  description="Agenda kegiatan dan dokumentasi aktivitas Bapak Bapak Senggang Chapter Bandung."
+>
+  <section class="activities-page-hero" aria-labelledby="activities-page-title">
+    <div class="activities-page-hero-shade"></div>
+
+    <div class="page-container activities-page-hero-content">
+      <a class="activities-back-link" href={`${base}/`}>
+        <span aria-hidden="true">←</span> KEMBALI KE BERANDA
+      </a>
+
+      <p class="eyebrow activities-page-eyebrow">
+        BBS CHAPTER BANDUNG / COMMUNITY ACTIVITIES
+      </p>
+
+      <h1 id="activities-page-title">
+        ACTIVITIES<span class="activities-title-period">.</span>
+      </h1>
+
+      <div class="activities-page-hero-bottom">
+        <p>
+          Setiap perjalanan punya cerita.<br />
+          Setiap pertemuan punya arti.
+        </p>
+
+        <div class="activities-page-counter" aria-label="Dua kartu agenda">
+          <strong>02</strong>
+          <span>ACTIVITY SLOTS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="activities-page-section" aria-labelledby="activities-list-title">
+    <div class="page-container">
+      <div class="activities-page-heading">
+        <div>
+          <p class="eyebrow">CALENDAR / COMMUNITY MOMENTS</p>
+          <h2 id="activities-list-title">UPCOMING<br /><span>ACTIVITIES.</span></h2>
+        </div>
+
+        <p class="activities-page-heading-note">
+          Agenda dan dokumentasi kegiatan<br />
+          BBS Chapter Bandung.
+        </p>
+      </div>
+
+      <div class="activities-page-grid">
+        <article class="activities-event-card">
+          <button
+            class="activities-event-image-button has-image"
+            type="button"
+            data-activity-image={activityImage}
+            data-activity-title="Agenda 23 Oktober 2026"
+            aria-label="Perbesar gambar agenda 23 Oktober 2026"
+          >
+            <img
+              class="activities-event-image"
+              src={activityImage}
+              alt="Poster agenda kegiatan BBS Chapter Bandung, 23 Oktober 2026"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="activities-event-zoom" aria-hidden="true">↗</span>
+          </button>
+
+          <div class="activities-event-caption">
+            <span class="activities-event-number">01</span>
+            <div>
+              <p class="activities-event-category">COMMUNITY AGENDA</p>
+              <h3>23 OCTOBER 2026</h3>
+              <p class="activities-event-description">
+                Agenda kegiatan BBS Chapter Bandung.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="activities-event-card activities-event-placeholder-card">
+          <div class="activities-event-placeholder" aria-label="Slot agenda berikutnya">
+            <span class="activities-placeholder-number">02</span>
+            <span class="activities-placeholder-icon" aria-hidden="true">+</span>
+            <span class="activities-placeholder-label">NEXT ACTIVITY</span>
+            <span class="activities-placeholder-hint">AGENDA SLOT</span>
+          </div>
+
+          <div class="activities-event-caption">
+            <span class="activities-event-number">02</span>
+            <div>
+              <p class="activities-event-category">COMING NEXT</p>
+              <h3>NEXT ACTIVITY</h3>
+              <p class="activities-event-description">
+                Agenda berikutnya akan ditambahkan di sini.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="activities-event-lightbox" aria-label="Pratinjau gambar agenda">
+    <div class="activities-event-lightbox-toolbar">
+      <span class="activities-event-lightbox-title">BBS / COMMUNITY ACTIVITIES</span>
+      <button
+        class="activities-event-lightbox-close"
+        type="button"
+        aria-label="Tutup gambar"
+      >
+        CLOSE <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <img class="activities-event-lightbox-image" src="" alt="" />
+    <p class="activities-event-lightbox-caption"></p>
+  </dialog>
+
+  <script>
+    const activityButtons = document.querySelectorAll<HTMLButtonElement>(
+      '.activities-event-image-button'
+    );
+    const activityLightbox = document.querySelector<HTMLDialogElement>(
+      '.activities-event-lightbox'
+    );
+    const activityLightboxImage = document.querySelector<HTMLImageElement>(
+      '.activities-event-lightbox-image'
+    );
+    const activityLightboxCaption = document.querySelector<HTMLElement>(
+      '.activities-event-lightbox-caption'
+    );
+    const activityCloseButton = document.querySelector<HTMLButtonElement>(
+      '.activities-event-lightbox-close'
+    );
+
+    activityButtons.forEach((button) => {
+      const image = button.querySelector<HTMLImageElement>(
+        '.activities-event-image'
+      );
+
+      if (!image) return;
+
+      button.addEventListener('click', () => {
+        if (!activityLightbox || !activityLightboxImage || !activityLightboxCaption) {
+          return;
+        }
+
+        activityLightboxImage.src = image.currentSrc || image.src;
+        activityLightboxImage.alt = image.alt;
+        activityLightboxCaption.textContent =
+          button.dataset.activityTitle || 'Community activity';
+
+        activityLightbox.showModal();
+      });
+    });
+
+    const closeActivityLightbox = () => {
+      if (activityLightbox?.open) activityLightbox.close();
+    };
+
+    activityCloseButton?.addEventListener('click', closeActivityLightbox);
+
+    activityLightbox?.addEventListener('click', (event) => {
+      if (event.target === activityLightbox) closeActivityLightbox();
+    });
+
+    activityLightbox?.addEventListener('close', () => {
+      if (activityLightboxImage) {
+        activityLightboxImage.src = '';
+        activityLightboxImage.alt = '';
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activityLightbox?.open) {
+        closeActivityLightbox();
+      }
+    });
+  </script>
+</BaseLayout>
