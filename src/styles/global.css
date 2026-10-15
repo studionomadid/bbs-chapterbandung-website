@@ -1203,13 +1203,15 @@ h1 span {
   }
 }
 
-/* RULES NAVIGATION */
+/* RULES & HISTORY NAVIGATION */
 
-.main-navigation .nav-rules {
+.main-navigation .nav-rules,
+.main-navigation .nav-history {
   position: relative;
 }
 
-.main-navigation .nav-rules::after {
+.main-navigation .nav-rules::after,
+.main-navigation .nav-history::after {
   position: absolute;
   right: 0;
   bottom: -9px;
@@ -1223,11 +1225,14 @@ h1 span {
 }
 
 .main-navigation .nav-rules:hover::after,
-.main-navigation .nav-rules.is-active::after {
+.main-navigation .nav-rules.is-active::after,
+.main-navigation .nav-history:hover::after,
+.main-navigation .nav-history.is-active::after {
   transform: scaleX(1);
 }
 
-.main-navigation .nav-rules.is-active {
+.main-navigation .nav-rules.is-active,
+.main-navigation .nav-history.is-active {
   color: var(--color-text);
 }
 
@@ -1851,7 +1856,8 @@ h1 span {
 @media (prefers-reduced-motion: reduce) {
   .rules-image,
   .rules-back-link,
-  .main-navigation .nav-rules::after {
+  .main-navigation .nav-rules::after,
+  .main-navigation .nav-history::after {
     transition: none;
   }
 }

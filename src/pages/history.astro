@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const photos = Array.from({ length: 2 }, (_, index) => {
+  const number = String(index + 1).padStart(2, '0');
+
+  return {
+    number,
+    src: `${base}/images/history/history-${number}.jpeg`,
+    title: `SEJARAH BBS ${number}`,
+    available: existsSync(
+      join(process.cwd(), 'public', 'images', 'history', `history-${number}.jpeg`)
+    ),
+  };
+});
+---
+
+<BaseLayout
+  title="Sejarah — BBS Chapter Bandung"
+  description="Dokumentasi sejarah dan perjalanan Bapak Bapak Senggang Chapter Bandung."
+>
+  <section class="rules-hero" aria-labelledby="history-title">
+    <div class="rules-hero-shade"></div>
+
+    <div class="page-container rules-hero-content">
+      <a class="rules-back-link" href={`${base}/`}>
+        <span aria-hidden="true">←</span> KEMBALI KE BERANDA
+      </a>
+
+      <p class="eyebrow rules-eyebrow">
+        BBS CHAPTER BANDUNG / OUR STORY
+      </p>
+
+      <h1 id="history-title">
+        SEJARAH<span class="rules-period">.</span>
+      </h1>
+
+      <div class="rules-hero-bottom">
+        <p>
+          Jejak perjalanan, kebersamaan, dan cerita di balik
+          Bapak Bapak Senggang Chapter Bandung.
+        </p>
+
+        <div class="rules-counter" aria-label="Dua foto sejarah">
+          <strong>02</strong>
+          <span>PHOTOGRAPHS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rules-section" aria-labelledby="history-gallery-title">
+    <div class="page-container">
+      <div class="rules-section-heading">
+        <div>
+          <p class="eyebrow">ARCHIVE / OUR JOURNEY</p>
+          <h2 id="history-gallery-title">CERITA<br /><span>PERJALANAN.</span></h2>
+        </div>
+
+        <p class="rules-heading-note">
+          Dokumentasi perjalanan BBS Chapter Bandung.
+        </p>
+      </div>
+
+      <div class="rules-grid">
+        {photos.map((photo) => (
+          <article class="rules-card">
+            <button
+              class:list={['rules-image-button', { 'has-image': photo.available }]}
+              type="button"
+              aria-label={`Perbesar ${photo.title}`}
+              data-rule-title={photo.title}
+              disabled={!photo.available}
+              aria-disabled={!photo.available ? 'true' : undefined}
+            >
+              {photo.available && (
+                <img
+                  class="rules-image"
+                  src={photo.src}
+                  alt={photo.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+
+              {!photo.available && (
+                <span class="rules-placeholder" aria-hidden="true">
+                  <span class="rules-placeholder-number">{photo.number}</span>
+                  <span class="rules-placeholder-icon">+</span>
+                  <span class="rules-placeholder-label">PHOTO SLOT</span>
+                  <span class="rules-placeholder-hint">ADD IMAGE</span>
+                </span>
+              )}
+
+              <span class="rules-zoom" aria-hidden="true">↗</span>
+            </button>
+
+            <div class="rules-card-caption">
+              <span class="rules-card-number">{photo.number}</span>
+              <div>
+                <h3>{photo.title}</h3>
+                <p>Arsip BBS Chapter Bandung</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="rules-note">
+        <span class="rules-note-mark" aria-hidden="true">i</span>
+        <p>
+          <strong>ARSIP:</strong>
+          Foto sejarah disimpan di
+          <code>public/images/history/</code>.
+          Gunakan nama <code>history-01.jpeg</code> dan
+          <code>history-02.jpeg</code>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="rules-lightbox" aria-label="Pratinjau foto sejarah">
+    <div class="rules-lightbox-toolbar">
+      <span class="rules-lightbox-title">BBS / OUR HISTORY</span>
+      <button class="rules-lightbox-close" type="button" aria-label="Tutup foto">
+        CLOSE <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <img class="rules-lightbox-image" src="" alt="" />
+    <p class="rules-lightbox-caption"></p>
+  </dialog>
+
+  <script>
+    const historyCards = document.querySelectorAll<HTMLButtonElement>(
+      '.rules-image-button'
+    );
+    const lightbox = document.querySelector<HTMLDialogElement>(
+      '.rules-lightbox'
+    );
+    const lightboxImage = document.querySelector<HTMLImageElement>(
+      '.rules-lightbox-image'
+    );
+    const lightboxCaption = document.querySelector<HTMLElement>(
+      '.rules-lightbox-caption'
+    );
+    const closeButton = document.querySelector<HTMLButtonElement>(
+      '.rules-lightbox-close'
+    );
+
+    historyCards.forEach((button) => {
+      const image = button.querySelector<HTMLImageElement>('.rules-image');
+      if (!image) return;
+
+      image.addEventListener('error', () => {
+        button.classList.remove('has-image');
+        button.disabled = true;
+      });
+
+      button.addEventListener('click', () => {
+        if (!lightbox || !lightboxImage || !lightboxCaption) return;
+        if (!image.naturalWidth) return;
+
+        lightboxImage.src = image.currentSrc || image.src;
+        lightboxImage.alt = image.alt;
+        lightboxCaption.textContent =
+          button.dataset.ruleTitle || 'Sejarah BBS';
+        lightbox.showModal();
+      });
+    });
+
+    const closeLightbox = () => {
+      if (lightbox?.open) lightbox.close();
+    };
+
+    closeButton?.addEventListener('click', closeLightbox);
+
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    lightbox?.addEventListener('close', () => {
+      if (lightboxImage) {
+        lightboxImage.src = '';
+        lightboxImage.alt = '';
+      }
+    });
+  </script>
+</BaseLayout>

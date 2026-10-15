@@ -1,16 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const rules = Array.from({ length: 9 }, (_, index) => {
+const rules = Array.from({ length: 7 }, (_, index) => {
   const number = String(index + 1).padStart(2, '0');
 
   return {
     number,
-    src: `${base}/images/rules/rule-${number}.jpg`,
+    src: `${base}/images/rules/rule-${number}.jpeg`,
     title: `PETUNJUK TEKNIS ${number}`,
-    available: false,
+    available: existsSync(
+      join(process.cwd(), 'public', 'images', 'rules', `rule-${number}.jpeg`)
+    ),
   };
 });
 ---
@@ -42,8 +46,8 @@ const rules = Array.from({ length: 9 }, (_, index) => {
           Pilih dokumentasi untuk melihatnya dalam ukuran lebih besar.
         </p>
 
-        <div class="rules-counter" aria-label="Sembilan slot dokumentasi">
-          <strong>09</strong>
+        <div class="rules-counter" aria-label="Tujuh slot dokumentasi">
+          <strong>07</strong>
           <span>DOCUMENTS</span>
         </div>
       </div>
@@ -59,7 +63,7 @@ const rules = Array.from({ length: 9 }, (_, index) => {
         </div>
 
         <p class="rules-heading-note">
-          Sembilan slot dokumentasi.<br />
+          Tujuh slot dokumentasi.<br />
           Foto dapat ditambahkan secara mandiri.
         </p>
       </div>
@@ -113,8 +117,8 @@ const rules = Array.from({ length: 9 }, (_, index) => {
           <strong>CATATAN:</strong>
           Slot yang belum memiliki foto akan menampilkan placeholder.
           Tambahkan foto ke folder <code>public/images/rules/</code>
-          dengan nama file <code>rule-01.jpg</code> sampai
-          <code>rule-09.jpg</code>.
+          dengan nama file <code>rule-01.jpeg</code> sampai
+          <code>rule-07.jpeg</code>.
         </p>
       </div>
     </div>
