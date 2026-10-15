@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const businessUnits = Array.from({ length: 8 }, (_, index) => ({
+  number: String(index + 1).padStart(2, '0'),
+}));
+---
+
+<BaseLayout
+  title="BUBS — Badan Usaha Bapak Senggang"
+  description="Daftar unit usaha BUBS (Badan Usaha Bapak Senggang), bagian dari BBS Chapter Bandung."
+>
+  <section class="bubs-hero" aria-labelledby="bubs-title">
+    <div class="page-container bubs-hero-content">
+      <a class="bubs-back-link" href={`${base}/`}>
+        <span aria-hidden="true">←</span> KEMBALI KE BERANDA
+      </a>
+
+      <p class="eyebrow">BBS CHAPTER BANDUNG / BUSINESS DIRECTORY</p>
+
+      <h1 id="bubs-title">
+        BADAN USAHA<br />
+        BAPAK SENGGANG<span>.</span>
+      </h1>
+
+      <div class="bubs-hero-bottom">
+        <p>
+          Ruang untuk mengenal unit usaha dalam keluarga besar
+          Bapak Bapak Senggang Chapter Bandung.
+        </p>
+
+        <div class="bubs-counter" aria-label="Delapan slot unit usaha">
+          <strong>08</strong>
+          <span>BUSINESS UNITS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bubs-section" aria-labelledby="bubs-directory-title">
+    <div class="page-container">
+      <div class="bubs-section-heading">
+        <div>
+          <p class="eyebrow">OUR NETWORK / BUSINESS DIRECTORY</p>
+          <h2 id="bubs-directory-title">
+            UNIT<br /><span>USAHA.</span>
+          </h2>
+        </div>
+
+        <p class="bubs-heading-note">
+          Delapan slot untuk unit usaha.<br />
+          Identitas setiap usaha dapat ditambahkan nanti.
+        </p>
+      </div>
+
+      <div class="bubs-grid">
+        {businessUnits.map((unit) => (
+          <article class="bubs-card">
+            <div
+              class="bubs-card-placeholder"
+              aria-label={`Slot unit usaha ${unit.number}, belum diisi`}
+            >
+              <span class="bubs-card-number">{unit.number}</span>
+              <span class="bubs-placeholder-icon" aria-hidden="true">+</span>
+              <span class="bubs-placeholder-label">BUSINESS UNIT</span>
+              <span class="bubs-placeholder-hint">COMING SOON</span>
+            </div>
+
+            <div class="bubs-card-caption">
+              <span class="bubs-caption-number">{unit.number}</span>
+              <div>
+                <h3>UNIT USAHA</h3>
+                <p>Identitas usaha akan ditambahkan.</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="bubs-note">
+        <span class="bubs-note-mark" aria-hidden="true">i</span>
+        <p>
+          <strong>DIREKTORI UNIT USAHA:</strong>
+          Halaman ini disiapkan untuk menampilkan delapan unit usaha.
+          Nama, logo, deskripsi, dan tautan masing-masing unit dapat
+          ditambahkan setelah datanya tersedia.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -11,7 +11,9 @@ const photos = Array.from({ length: 2 }, (_, index) => {
   return {
     number,
     src: `${base}/images/history/history-${number}.jpeg`,
-    title: `SEJARAH BBS ${number}`,
+    title: number === '01'
+      ? 'Sejarah Mother Chapter'
+      : 'Sejarah Chapter Bandung',
     available: existsSync(
       join(process.cwd(), 'public', 'images', 'history', `history-${number}.jpeg`)
     ),

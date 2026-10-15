@@ -2,6 +2,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const isRulesPage = Astro.url.pathname.startsWith('/rules');
 const isHistoryPage = Astro.url.pathname.startsWith('/history');
+const isBubsPage = Astro.url.pathname.startsWith('/bubs');
 ---
 
 <header class="site-header">
@@ -36,6 +37,11 @@ const isHistoryPage = Astro.url.pathname.startsWith('/history');
     <a href={`${base}/#chapter`}>THE CHAPTER</a>
     <a href={`${base}/#activities`}>ACTIVITIES</a>
     <a href={`${base}/#gallery`}>GALLERY</a>
+    <a
+      class:list={['nav-bubs', { 'is-active': isBubsPage }]}
+      href={`${base}/bubs/`}
+      aria-current={isBubsPage ? 'page' : undefined}
+    >BUBS</a>
     <a
       class:list={['nav-rules', { 'is-active': isRulesPage }]}
       href={`${base}/rules/`}
