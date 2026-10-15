@@ -1,13 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const rules = Array.from({ length: 9 }, (_, index) => {
   const number = String(index + 1).padStart(2, '0');
 
   return {
     number,
-    src: `/images/rules/rule-${number}.jpg`,
+    src: `${base}/images/rules/rule-${number}.jpg`,
     title: `PETUNJUK TEKNIS ${number}`,
+    available: false,
   };
 });
 ---
@@ -20,7 +23,7 @@ const rules = Array.from({ length: 9 }, (_, index) => {
     <div class="rules-hero-shade"></div>
 
     <div class="page-container rules-hero-content">
-      <a class="rules-back-link" href="/">
+      <a class="rules-back-link" href={`${base}/`}>
         <span aria-hidden="true">←</span> KEMBALI KE BERANDA
       </a>
 
@@ -70,15 +73,18 @@ const rules = Array.from({ length: 9 }, (_, index) => {
               aria-label={`Perbesar ${rule.title}`}
               data-rule-image={rule.src}
               data-rule-title={rule.title}
-              disabled
+              disabled={!rule.available}
+              aria-disabled={!rule.available ? 'true' : undefined}
             >
-              <img
-                class="rules-image"
-                src={rule.src}
-                alt={rule.title}
-                loading="lazy"
-                decoding="async"
-              />
+              {rule.available && (
+                <img
+                  class="rules-image"
+                  src={rule.src}
+                  alt={rule.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
 
               <span class="rules-placeholder" aria-hidden="true">
                 <span class="rules-placeholder-number">{rule.number}</span>

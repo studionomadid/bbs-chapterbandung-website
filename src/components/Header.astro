@@ -1,9 +1,10 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const isRulesPage = Astro.url.pathname.startsWith('/rules');
 ---
 
 <header class="site-header">
-  <a class="brand" href="/" aria-label="BBS Bandung — Beranda">
+  <a class="brand" href={`${base}/`} aria-label="BBS Bandung — Beranda">
     <span class="brand-mark">BBS</span>
     <span class="brand-copy">
       <strong>BAPAK BAPAK SENGGANG</strong>
@@ -23,16 +24,16 @@ const isRulesPage = Astro.url.pathname.startsWith('/rules');
   </button>
 
   <nav class="main-navigation" id="main-navigation" aria-label="Navigasi utama">
-    <a href="/#about">ABOUT</a>
-    <a href="/#chapter">THE CHAPTER</a>
-    <a href="/#activities">ACTIVITIES</a>
-    <a href="/#gallery">GALLERY</a>
+    <a href={`${base}/#about`}>ABOUT</a>
+    <a href={`${base}/#chapter`}>THE CHAPTER</a>
+    <a href={`${base}/#activities`}>ACTIVITIES</a>
+    <a href={`${base}/#gallery`}>GALLERY</a>
     <a
       class:list={['nav-rules', { 'is-active': isRulesPage }]}
-      href="/rules/"
+      href={`${base}/rules/`}
       aria-current={isRulesPage ? 'page' : undefined}
     >RULES</a>
-    <a class="nav-cta" href="/#contact">
+    <a class="nav-cta" href={`${base}/#contact`}>
       GET IN TOUCH <span aria-hidden="true">↗</span>
     </a>
   </nav>
