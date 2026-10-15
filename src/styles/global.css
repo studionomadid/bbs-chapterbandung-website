@@ -152,16 +152,12 @@ h1 span {
   gap: 12px;
 }
 
-.brand-mark {
-  display: grid;
+.brand-logo {
+  display: block;
   width: 46px;
   height: 46px;
-  place-items: center;
-  border: 1px solid var(--color-text);
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 900;
-  letter-spacing: -0.06em;
+  flex: 0 0 46px;
+  object-fit: contain;
 }
 
 .brand-copy {
@@ -887,10 +883,10 @@ h1 span {
     gap: 10px;
   }
 
-  .brand-mark {
+  .brand-logo {
     width: 39px;
     height: 39px;
-    font-size: 16px;
+    flex-basis: 39px;
   }
 
   .brand-copy strong {

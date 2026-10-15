@@ -6,7 +6,14 @@ const isHistoryPage = Astro.url.pathname.startsWith('/history');
 
 <header class="site-header">
   <a class="brand" href={`${base}/`} aria-label="BBS Bandung — Beranda">
-    <span class="brand-mark">BBS</span>
+    <img
+      class="brand-logo"
+      src={`${base}/images/logo/logo-navbar-white.png`}
+      alt=""
+      width="46"
+      height="46"
+      fetchpriority="high"
+    />
     <span class="brand-copy">
       <strong>BAPAK BAPAK SENGGANG</strong>
       <small>CHAPTER BANDUNG</small>
